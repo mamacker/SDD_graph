@@ -7,9 +7,10 @@
 #
 ##
 
-import numpy as np
 import sys
 import csv
+import numpy as np
+import matplotlib.pyplot as plt
 
 class Pedestrian:
     """
@@ -27,12 +28,15 @@ class Pedestrian:
         """
         return np.sqrt((self.x-other_node.x)**2+(self.y-other_node.y)**2)
 
+    def __str__(self):
+        return "Node at (%s,%s)" % (self.x, self.y)
+
 class PedestrianGraph:
     """
     The graph we will use for prediction. Each node is a Pedestrian,
-    and nodes are connected if they are closer than a threshold. 
+    and nodes are connected if they are closer than a threshold.
     """
-    def __init__(self, threshold=3):
+    def __init__(self, threshold=400):
         # The nodes are each Pedestrian objects
         self.nodes = []   
 
@@ -47,17 +51,24 @@ class PedestrianGraph:
         """
         Add a node to the graph
         """
-        # Include this node
+        # Construct edges where necessary
+        for other_node in self.nodes:
+            if node.distance(other_node) < self.thresh:
+                self.edges.append((node,other_node))
+        
+        # Include this node in the graph
         self.nodes.append(node)
 
-        # Construct edges where necessary
-        pass
-
-    def plot(self):
+    def plot(self, ax):
         """
         Use matplotlib to make a pretty plot of the graph
         """
-        pass
+        for node in self.nodes:
+            ax.scatter(node.x,node.y,color='red',marker='o')
+
+        for edge in self.edges:
+            ax.plot([edge[0].x,edge[1].x],[edge[0].y,edge[1].y],linestyle='--',color='grey')
+
 
 def parse(filename):
     """
@@ -80,10 +91,33 @@ def parse(filename):
 	10  label. The label for this annotation, enclosed in quotation marks.
 
     """
-    with open(filename,'r') as inpt:
-        reader = csv.reader(inpt, delimiter=" ")
-        for line in reader:
-            print(line)
+    fig = plt.figure()
+    ax = fig.add_subplot(1,1,1)
+    xlim = (200,1800)
+    ylim = (200,1800)
+
+    for frame in range(509):
+        graph = PedestrianGraph()
+        with open(filename,'r') as inpt:
+            reader = csv.reader(inpt, delimiter=" ")
+
+            for line in reader:
+                if int(line[5]) == frame and not int(line[6]):   # select elements in the given frame and within the field of view
+                    # Position of the object = center of bounding box
+                    x = np.mean([int(line[1]),int(line[3])])
+                    y = np.mean([int(line[2]),int(line[3])])
+
+                    node = Pedestrian(x,y)
+                    graph.add_node(node)
+
+        ax.clear()   # Get rid of previously plotted elements
+        ax.set_xlim(xlim)
+        ax.set_ylim(ylim)
+        graph.plot(ax)
+        plt.pause(0.005)
+
+    plt.show()
+
 
 
 if __name__=="__main__":
