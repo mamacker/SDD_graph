@@ -18,7 +18,6 @@ e.g.
 `./parser.py ./SDD/quad/video0/annotations.txt`
 
 Gives rise to a visualization like this:
-
 ![example graph](sdd_graph_example.gif)
 
 where bikes are shown in blue, pedestrians are red, and nodes are connected if they are
