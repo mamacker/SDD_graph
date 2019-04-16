@@ -17,9 +17,11 @@ class Pedestrian:
     A simple object that represents a pedestrian. It has
     two attributes: x and y position.
     """
-    def __init__(self, x_position, y_position):
+    def __init__(self, x_position, y_position, label):
         self.x = x_position
         self.y = y_position
+
+        self.type = label   # pedestrian, biker, etc
 
     def distance(self, other_node):
         """
@@ -64,7 +66,14 @@ class PedestrianGraph:
         Use matplotlib to make a pretty plot of the graph
         """
         for node in self.nodes:
-            ax.scatter(node.x,node.y,color='red',marker='o')
+            if node.type == "Pedestrian":
+                color='red'
+            elif node.type == "Biker":
+                color='blue'
+            else:
+                color='green'
+
+            ax.scatter(node.x,node.y,color=color,marker='o')
 
         for edge in self.edges:
             ax.plot([edge[0].x,edge[1].x],[edge[0].y,edge[1].y],linestyle='--',color='grey')
@@ -106,8 +115,9 @@ def parse(filename):
                     # Position of the object = center of bounding box
                     x = np.mean([int(line[1]),int(line[3])])
                     y = np.mean([int(line[2]),int(line[3])])
+                    label = line[9]
 
-                    node = Pedestrian(x,y)
+                    node = Pedestrian(x,y,label)
                     graph.add_node(node)
 
         ax.clear()   # Get rid of previously plotted elements
