@@ -11,9 +11,17 @@ Some utilities for extracting graph data from the [Stanford Drone Dateset](http:
 
 ## Usage
 
-Currently, the script `parser.py` extracts data from a annotation file (`annotations.txt`)
-of the SDD and plays an animation of an associated graph over time. 
+Currently, the script `parser.py` extracts data from a annotation file
+of the SDD and plays an animation of an associated graph over time:
 
-`./parser.py [path_to_data]/annotations.txt`
+e.g.
+`./parser.py ./SDD/quad/video0/annotations.txt`
+
+Gives rise to a visualization like this:
+
+![example graph](sdd_graph_example.png)
+
+where bikes are shown in blue, pedestrians are red, and nodes are connected if they are
+closer than a given threshold. 
 
 
