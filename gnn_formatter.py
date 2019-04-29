@@ -192,10 +192,13 @@ def main(input_dir, output_dir, name):
     output_file.close()
 
 if __name__=="__main__":
-    # specify manually for now: read from command line later
-    input_dir = "./SDD/quad/video0/"
-    output_dir = "./data/"
-    name = "quad_video0"
+    if len(sys.argv) != 4:
+        print("Usage: %s [input_directory] [output_directory] [output_filename]" % sys.argv[0])
+        sys.exit(1)
+
+    input_dir = sys.argv[1]
+    output_dir = sys.argv[2]
+    name = sys.argv[3]
 
     main(input_dir, output_dir, name)
 

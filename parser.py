@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 
 ##
 #
@@ -105,7 +105,7 @@ def parse(filename):
     xlim = (200,1800)
     ylim = (200,1800)
 
-    for frame in range(509):
+    for frame in range(500):
         graph = PedestrianGraph()
         with open(filename,'r') as inpt:
             reader = csv.reader(inpt, delimiter=" ")
@@ -125,6 +125,8 @@ def parse(filename):
         ax.set_ylim(ylim)
         graph.plot(ax)
         plt.pause(0.005)
+
+        #plt.savefig('images/%03d.png' % frame)
 
     plt.show()
 
