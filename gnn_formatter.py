@@ -28,14 +28,6 @@
 #           - left (average pixel value just left of the box)
 #           - right (average pixel value just right of the box)
 #
-#    - A graph file with the following format:
-#         =========================================
-#         | time   node_id_1   node_id_2   weight |
-#         |                                       |
-#         |                                       |
-#
-#       where the weight is defined by 1/(distance between nodes)
-#
 ##
 
 import sys
