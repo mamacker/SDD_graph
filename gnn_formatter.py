@@ -39,7 +39,7 @@ import numpy as np
 
 def label_int(label_string):
     """
-    Maps a label ('Pedestrian', 'Biker', 'Car') to an integer (1,2,3).
+    Maps a label ('Pedestrian', 'Biker', 'Car', 'Skater', 'Cart', 'Bus') to an integer (1,...,6).
     """
     if label_string == 'Pedestrian':
         return 1
@@ -47,6 +47,12 @@ def label_int(label_string):
         return 2
     elif label_string == 'Car':
         return 3
+    elif label_string == 'Skater':
+        return 4
+    elif label_string == 'Cart':
+        return 5
+    elif label_string == 'Bus':
+        return 6
     else:
         raise NameError("Unknown label type %s" % label_string)
 
